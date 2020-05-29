@@ -1,0 +1,57 @@
+#server
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 10086
+
+
+dbserver:
+  mysql:
+    driver: com.mysql.cj.jdbc.Driver
+    type: mysql
+    host: 192.168.108.27
+    port: 3306
+    username: root
+    password: ChaoNao@2020
+    dbname: data_fusion
+
+spring:
+  profiles: dev
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    platform: ${dbserver.mysql.type}
+    url: jdbc:${dbserver.mysql.type}://${dbserver.mysql.host}:${dbserver.mysql.port}/${dbserver.mysql.dbname}?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: ${dbserver.mysql.username}
+    password: ${dbserver.mysql.password}
+    driver-class-name: ${dbserver.mysql.driver}
+    # 初始化时建立物理连接的个数
+    initial-size: 10
+    # 最小连接池数量
+    min-idle: 5
+    max-idle: 128
+    # 获取连接时最大等待时间，单位毫秒
+    max-wait: 60000
+    # 用来检测连接是否有效的sql，要求是一个查询语句
+    validation-query: SELECT 1 FROM DUAL
+    # 配置监控统计拦截的filters，'stat'去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall
+    web-stat-filter:
+      enabled: true
+    use-global-data-source-stat: true
+
+logging:
+  level:
+    org.springframework.web: INFO
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.cmcc.algo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+swagger:
+  enable: false
