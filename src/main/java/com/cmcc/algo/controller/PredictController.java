@@ -1,7 +1,7 @@
 package com.cmcc.algo.controller;
 
 import cn.hutool.json.JSONObject;
-import com.cmcc.algo.common.CommonResult;
+import com.cmcc.algo.common.response.CommonResult;
 import com.cmcc.algo.service.IPredictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.cmcc.algo.service;
 
-import com.cmcc.algo.entity.Train;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cmcc.algo.entity.Train;
 
 /**
  * <p>
@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-05-26
  */
 public interface ITrainService extends IService<Train> {
-
+    Boolean submitTrainTask(String federationUuid);
 }

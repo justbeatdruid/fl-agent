@@ -24,8 +24,8 @@ import java.util.Date;
 @ApiModel
 @Data
 @Entity
-@Table(name = "tb_dataset")
-public class Dataset implements Serializable {
+@Table(name = "tb_federation_dataset")
+public class FederationDataset implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,6 +70,28 @@ public class Dataset implements Serializable {
      * 数据party
      */
     @Column
-    @ApiModelProperty(value = "party id")
+    @ApiModelProperty(value = "partyId")
     private Integer partyId;
+
+    /**
+     * 联邦ID
+     */
+    @Column
+    @ApiModelProperty(value = "联邦ID")
+    private String federationUuid;
+
+    /**
+     * 数据类别
+     */
+    @Column
+    @ApiModelProperty(value = "数据类别")
+    private Short type;
+
+    public FederationDataset(String federationUuid, Integer partyId) {
+        this.federationUuid = federationUuid;
+        this.partyId = partyId;
+    }
+
+    public FederationDataset() {
+    }
 }

@@ -1,3 +1,8 @@
+# Tomcat
+server:
+  servlet:
+    context-path: /com/cmcc/datafusion/agent
+
 spring:
   #环境dev/pro
   profiles:

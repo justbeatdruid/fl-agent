@@ -1,11 +1,23 @@
 package com.cmcc.algo.controller;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import com.cmcc.algo.common.CommonResult;
-import com.cmcc.algo.service.ITrainService;
+import cn.hutool.extra.template.TemplateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.cmcc.algo.common.exception.APIException;
+import com.cmcc.algo.common.response.CommonResult;
+import com.cmcc.algo.common.response.ResultCode;
+import com.cmcc.algo.entity.Dataset;
+import com.cmcc.algo.entity.FederationDataset;
+import com.cmcc.algo.entity.FederationEntity;
+import com.cmcc.algo.entity.UserFederation;
+import com.cmcc.algo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 训练接口
@@ -19,17 +31,23 @@ public class TrainController {
     @Autowired
     ITrainService trainService;
 
+
+
     /**
      * 提交训练任务接口
      *
-     * @param request JSON格式,包含训练记录id（先写数据库）|联邦训练参数、数据集参数等（需要联邦表保存，否则退出再进全部丢失）
+     * @param federationUuid
      * @return
      */
-    @ResponseBody
     @PostMapping(value = "/submit")
-    public CommonResult submitTrainTask(@RequestBody JSONObject request){
+    public CommonResult submitTrainTask(@RequestBody String federationUuid){
+
+
+
+
+
         // TODO 根据参数组装相应json，通过rest请求fate-flow，然后根据返回结果（新增）修改训练记录表
-        return null;
+        return CommonResult.success(null);
     }
 
 //    @RequestBody

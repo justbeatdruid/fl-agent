@@ -1,4 +1,4 @@
-package com.cmcc.algo.common;
+package com.cmcc.algo.common.response;
 
 import com.github.pagehelper.Page;
 import org.springframework.http.HttpStatus;

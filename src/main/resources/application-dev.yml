@@ -4,17 +4,17 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  port: 10086
+  port: 10087
 
 
 dbserver:
   mysql:
     driver: com.mysql.cj.jdbc.Driver
     type: mysql
-    host: 192.168.108.27
+    host: localhost
     port: 3306
     username: root
-    password: ChaoNao@2020
+    password: Pass1234
     dbname: data_fusion
 
 spring:
@@ -55,3 +55,7 @@ mybatis-plus:
 
 swagger:
   enable: false
+
+fate-flow:
+  host: localhost
+  port: 9380

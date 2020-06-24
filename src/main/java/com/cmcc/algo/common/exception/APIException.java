@@ -1,4 +1,6 @@
-package com.cmcc.algo.common;
+package com.cmcc.algo.common.exception;
+
+import com.cmcc.algo.common.response.ResultCode;
 
 public class APIException extends RuntimeException{
     private ResultCode resultCode;

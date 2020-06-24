@@ -1,11 +1,13 @@
 package com.cmcc.algo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -13,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author hjy
- * @since 2020-05-26
+ * @since 2020-05-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,12 +28,30 @@ public class Predict implements Serializable {
     /**
      * 预测记录ID
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 预测状态(0:等待，1:就绪，2:运行中，3:成功，4:失败)
+     * 预测任务UUID
      */
-    private Boolean status;
+    private String uuid;
+
+    /**
+     * 联邦UUID
+     */
+    private String federationUuid;
+
+    /**
+     * 训练记录UUID
+     */
+    private String trainUuid;
+
+    private Integer algorithmId;
+
+    /**
+     * 预测状态(0:运行中，1:成功，2:失败)
+     */
+    private Integer status;
 
     /**
      * 预测详情URL
@@ -41,12 +61,12 @@ public class Predict implements Serializable {
     /**
      * 预测开始时间
      */
-    private LocalDateTime startTime;
+    private String startTime;
 
     /**
      * 预测耗时
      */
-    private LocalDateTime duration;
+    private String duration;
 
     /**
      * 预测参数(包括模型、数据、运行时参数)

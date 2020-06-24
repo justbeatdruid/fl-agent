@@ -1,7 +1,7 @@
 package com.cmcc.algo.controller;
 
 import cn.hutool.json.JSONObject;
-import com.cmcc.algo.common.CommonResult;
+import com.cmcc.algo.common.response.CommonResult;
 import com.cmcc.algo.service.IDatasetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,12 @@ public class DatasetController {
     /**
      * 上传接口
      *
-     * @param request JSON格式,包含datasetId
+     * @param federationUuid JSON格式,包含federationUuid
      * @return
      */
     @ResponseBody
     @PostMapping(value = "/upload")
-    public CommonResult upload(@RequestBody JSONObject request){
+    public CommonResult upload(@RequestBody String federationUuid){
         // TODO 根据datasetId得到path和生成table_name、namespace的依据（federation）
         return null;
     }

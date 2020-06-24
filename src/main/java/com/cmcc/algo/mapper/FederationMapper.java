@@ -1,7 +1,7 @@
 package com.cmcc.algo.mapper;
 
-import com.cmcc.algo.entity.Federation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cmcc.algo.entity.FederationEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author hjy
  * @since 2020-05-26
  */
-public interface FederationMapper extends BaseMapper<Federation> {
+public interface FederationMapper extends BaseMapper<FederationEntity> {
 
 }

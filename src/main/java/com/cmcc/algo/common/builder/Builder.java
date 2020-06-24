@@ -1,4 +1,4 @@
-package com.cmcc.algo.common;
+package com.cmcc.algo.common.builder;
 
 import java.util.ArrayList;
 import java.util.List;

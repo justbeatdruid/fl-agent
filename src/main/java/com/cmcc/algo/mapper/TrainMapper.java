@@ -1,7 +1,7 @@
 package com.cmcc.algo.mapper;
 
-import com.cmcc.algo.entity.Train;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cmcc.algo.entity.Train;
 
 /**
  * <p>

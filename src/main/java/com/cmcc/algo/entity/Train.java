@@ -1,12 +1,14 @@
 package com.cmcc.algo.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -14,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author hjy
- * @since 2020-05-26
+ * @since 2020-05-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,17 +29,23 @@ public class Train implements Serializable {
     /**
      * 训练任务ID
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 联邦ID
+     * 训练记录UUID
      */
-    private String federationId;
+    private String uuid;
 
     /**
-     * 训练状态(0:等待，1:就绪，2:运行中，3:成功，4:失败)
+     * 联邦UUID
      */
-    private Boolean status;
+    private String federationUuid;
+
+    /**
+     * 训练状态(0:运行中，1:成功，2:失败)
+     */
+    private Integer status;
 
     /**
      * 训练详情URL
@@ -47,12 +55,12 @@ public class Train implements Serializable {
     /**
      * 训练开始时间
      */
-    private LocalDateTime startTime;
+    private String startTime;
 
     /**
      * 训练耗时
      */
-    private LocalDateTime duration;
+    private String duration;
 
     /**
      * AUC值

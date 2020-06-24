@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.cmcc.algo.mapper")
-public class FateAgentApplication {
+public class FLAgentApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FateAgentApplication.class, args);
+        SpringApplication.run(FLAgentApplication.class, args);
     }
 }

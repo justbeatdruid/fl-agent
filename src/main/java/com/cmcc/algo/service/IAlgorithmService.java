@@ -1,7 +1,7 @@
 package com.cmcc.algo.service;
 
-import com.cmcc.algo.entity.Algorithm;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cmcc.algo.entity.Algorithm;
 
 /**
  * <p>

@@ -1,7 +1,7 @@
 package com.cmcc.algo.service;
 
-import com.cmcc.algo.entity.Federation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cmcc.algo.entity.FederationEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author hjy
  * @since 2020-05-26
  */
-public interface IFederationService extends IService<Federation> {
+public interface IFederationService extends IService<FederationEntity> {
 
 }
