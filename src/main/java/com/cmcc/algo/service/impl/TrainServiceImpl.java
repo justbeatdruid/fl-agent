@@ -14,6 +14,7 @@ import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.CommonConstant;
 import com.cmcc.algo.constant.URLConstant;
 import com.cmcc.algo.entity.*;
+import com.cmcc.algo.mapper.FederationRepository;
 import com.cmcc.algo.mapper.TrainMapper;
 import com.cmcc.algo.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -44,7 +45,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
     IDatasetService datasetService;
 
     @Autowired
-    IFederationService federationService;
+    FederationRepository federationMapper;
 
     @Autowired
     IUserFederationService userFederationService;
@@ -60,7 +61,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
 
     @Override
     public Boolean submitTrainTask(String federationUuid) {
-        FederationEntity federation = federationService.getOne(Wrappers.<FederationEntity>lambdaQuery().eq(FederationEntity::getUuid, federationUuid));
+        FederationEntity federation = federationMapper.getOne(Long.valueOf(federationUuid));
         Algorithm algorithm = algorithmService.getOne(Wrappers.<Algorithm>lambdaQuery().eq(Algorithm::getId, federation.getAlgorithmId()));
 
         String label = Optional.ofNullable(JSONUtil.parseObj(federation.getDataFormat()).getStr("label")).orElseThrow(() -> new APIException(ResultCode.NOT_FOUND, "数据标签丢失"));
@@ -138,7 +139,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
 
         // 修改联邦状态
         federation.setStatus(2);
-        federationService.updateById(federation);
+        federationMapper.save(federation);
 
         return true;
     }

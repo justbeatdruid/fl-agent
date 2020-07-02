@@ -13,6 +13,7 @@ import com.cmcc.algo.config.CommonConfig;
 import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.URLConstant;
 import com.cmcc.algo.entity.*;
+import com.cmcc.algo.mapper.FederationRepository;
 import com.cmcc.algo.service.IFederationService;
 import com.cmcc.algo.service.IPredictService;
 import com.cmcc.algo.service.ITrainService;
@@ -45,7 +46,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
     ITrainService trainService;
 
     @Autowired
-    IFederationService federationService;
+    FederationRepository federationMapper;
 
     @Autowired
     IPredictService predictService;
@@ -69,12 +70,15 @@ public class SynchronizeStatusTask implements ApplicationRunner {
         ScheduledFuture<?> future = threadPoolTaskScheduler.schedule(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     List<FedTrain> nfFedTrainList = getNfFedTrainList();
-                    List<FedPredict> nfFedPredictList = getNfPredictList();
-
                     updateTrainJob(nfFedTrainList);
+                } catch (Exception e){
+                    log.warn("synchronize is failed, the error detail is {}", e.getMessage());
+                }
+
+                try {
+                    List<FedPredict> nfFedPredictList = getNfPredictList();
                     updatePredictJob(nfFedPredictList);
                 } catch (Exception e){
                     log.warn("synchronize is failed, the error detail is {}", e.getMessage());
@@ -85,8 +89,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
 
     private List<FedTrain> getNfFedTrainList() {
         List<Train> nfTrainList = trainService.list(Wrappers.<Train>lambdaQuery().eq(Train::getStatus, 0));
-        List<FederationEntity> nfTrainFederationList = federationService.list(Wrappers.<FederationEntity>lambdaQuery()
-                .in(FederationEntity::getUuid, nfTrainList.stream().map(x -> x.getFederationUuid()).collect(Collectors.toList())));
+        List<FederationEntity> nfTrainFederationList = federationMapper.findByUuidIn(nfTrainList.stream().map(x -> x.getFederationUuid()).collect(Collectors.toList()));
 
         List<FedTrain> nfFedTrainList = new ArrayList<>();
         for (Train train : nfTrainList) {
@@ -156,7 +159,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
                     }
                     train.setAccuracy(maximumAccuracy.get());
 
-                    federationService.updateById(fed);
+                    federationMapper.save(fed);
                     trainService.updateById(train);
                     break;
                 case "failed":
@@ -175,8 +178,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
 
     private List<FedPredict> getNfPredictList(){
         List<Predict> nfPredictList = predictService.list(Wrappers.<Predict>lambdaQuery().eq(Predict::getStatus, 0));
-        List<FederationEntity> nfPredictFederationList = federationService.list(Wrappers.<FederationEntity>lambdaQuery()
-                .in(FederationEntity::getUuid, nfPredictList.stream().map(x -> x.getFederationUuid()).collect(Collectors.toList())));
+        List<FederationEntity> nfPredictFederationList = federationMapper.findByUuidIn(nfPredictList.stream().map(x -> x.getFederationUuid()).collect(Collectors.toList()));
 
         List<FedPredict> nfFedPredictList = new ArrayList<>();
         for (Predict predict : nfPredictList) {
@@ -224,7 +226,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
                     // 更新持续时间
                     predict.setDuration(TimeUtils.getDurationStrByTimestamp(query.getLong("f_end_time") - predict.getStartTimestamp()));
 
-                    federationService.updateById(fed);
+                    federationMapper.save(fed);
                     predictService.updateById(predict);
                     break;
                 case "failed":

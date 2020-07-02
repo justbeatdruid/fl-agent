@@ -15,7 +15,8 @@ spring:
       max-file-size: 512MB # 单个文件大小
       max-request-size: 512MB # 设置总上传的数据大小
       enabled: true #开启
-
+  main:
+    allow-bean-definition-overriding: true
 
 logging:
   level:

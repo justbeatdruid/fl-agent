@@ -12,6 +12,7 @@ import com.cmcc.algo.common.response.ResultCode;
 import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.URLConstant;
 import com.cmcc.algo.entity.*;
+import com.cmcc.algo.mapper.FederationRepository;
 import com.cmcc.algo.mapper.PredictMapper;
 import com.cmcc.algo.service.IFederationService;
 import com.cmcc.algo.service.IPredictService;
@@ -44,11 +45,11 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
     IPredictService predictService;
 
     @Autowired
-    IFederationService federationService;
+    FederationRepository federationMapper;
 
     @Override
     public Boolean submitPredictTask(String federationUuid) {
-        FederationEntity federation = federationService.getOne(Wrappers.<FederationEntity>lambdaQuery().eq(FederationEntity::getUuid, federationUuid));
+        FederationEntity federation = federationMapper.getOne(Long.valueOf(federationUuid));
 
         // 从最新一次train记录获取param
         Train train = Optional.ofNullable(trainService.getOne(Wrappers.<Train>lambdaQuery()
@@ -88,7 +89,7 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
                 .with(Predict::setJobUrl, JSONUtil.parseObj(submit.getStr("data")).getStr("board_url"))
                 .with(Predict::setStartTime, TimeUtils.getTimeStrByTimestamp(query.getLong("f_start_time")))
                 .with(Predict::setStartTimestamp, query.getLong("f_start_time"))
-                .with(Predict::setDuration, TimeUtils.getDurationStrByTimestamp(System.currentTimeMillis()-query.getLong("f_start_time")))
+                .with(Predict::setDuration, TimeUtils.getDurationStrByTimestamp(System.currentTimeMillis() - query.getLong("f_start_time")))
                 .with(Predict::setPredictParam, JSONUtil.toJsonStr(predictParam))
                 .with(Predict::setJobId, submit.getStr("jobId"))
                 .build();
@@ -97,7 +98,7 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
 
         // 修改联邦状态
         federation.setStatus(2);
-        federationService.updateById(federation);
+        federationMapper.save(federation);
 
         return true;
     }
