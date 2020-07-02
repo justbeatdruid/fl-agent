@@ -1,5 +1,6 @@
 package com.cmcc.algo.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.template.TemplateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cmcc.algo.common.exception.APIException;
@@ -10,6 +11,9 @@ import com.cmcc.algo.entity.FederationDataset;
 import com.cmcc.algo.entity.FederationEntity;
 import com.cmcc.algo.entity.UserFederation;
 import com.cmcc.algo.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +29,12 @@ import java.util.stream.Collectors;
  * @author Hao Jinyao
  * @since  2020/05/26
  */
+@Api(tags = "训练任务接口")
 @RestController
 @RequestMapping("/train")
 public class TrainController {
     @Autowired
     ITrainService trainService;
-
-
 
     /**
      * 提交训练任务接口
@@ -39,21 +42,14 @@ public class TrainController {
      * @param federationUuid
      * @return
      */
+    @ApiOperation(value = "提交任务", notes = "提交任务")
+    @ApiImplicitParam(name = "federationUuid", value = "联邦UUID")
     @PostMapping(value = "/submit")
     public CommonResult submitTrainTask(@RequestBody String federationUuid){
-
-
-
-
-
-        // TODO 根据参数组装相应json，通过rest请求fate-flow，然后根据返回结果（新增）修改训练记录表
-        return CommonResult.success(null);
+        if (!StrUtil.isBlank(federationUuid)) {
+            throw new APIException(ResultCode.PARAMETER_CHECK_ERROR,"联邦UUID为空");
+        }
+        trainService.submitTrainTask(federationUuid);
+        return CommonResult.success();
     }
-
-//    @RequestBody
-//    @PostMapping(value = "/status/update")
-//    public CommonResult updateTrainTaskStatus(@RequestBody JSONArray request){
-//        // 对每一个记录id，调用相应fate-flow接口，得到是否执行到最后并成功，更新训练记录表状态
-//        return null;
-//    }
 }

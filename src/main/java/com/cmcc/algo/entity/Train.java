@@ -57,6 +57,7 @@ public class Train implements Serializable {
      */
     private String startTime;
 
+    private Long startTimestamp;
     /**
      * 训练耗时
      */
@@ -67,7 +68,11 @@ public class Train implements Serializable {
      */
     @TableField("AUC")
     private Float auc;
-
+    /**
+     * KS值
+     */
+    @TableField("KS")
+    private Float ks;
     /**
      * 准确率
      */
@@ -78,6 +83,7 @@ public class Train implements Serializable {
      */
     private Integer algorithmId;
 
+    public String jobId;
     /**
      * 训练参数（包括数据与运行时参数）
      */

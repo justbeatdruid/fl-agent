@@ -63,6 +63,7 @@ public class Predict implements Serializable {
      */
     private String startTime;
 
+    private Long startTimestamp;
     /**
      * 预测耗时
      */
@@ -76,7 +77,7 @@ public class Predict implements Serializable {
     /**
      * 预测任务ID（用于导出数据）
      */
-    private Integer jobId;
+    private String jobId;
 
     /**
      * 导出文件路径

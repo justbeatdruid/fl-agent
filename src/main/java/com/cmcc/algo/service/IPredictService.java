@@ -12,5 +12,7 @@ import com.cmcc.algo.entity.Predict;
  * @since 2020-05-26
  */
 public interface IPredictService extends IService<Predict> {
+    Boolean submitPredictTask(String federationUuid);
 
+    Boolean exportResult(String predictUuid);
 }

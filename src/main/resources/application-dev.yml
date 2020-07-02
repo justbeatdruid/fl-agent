@@ -11,11 +11,11 @@ dbserver:
   mysql:
     driver: com.mysql.cj.jdbc.Driver
     type: mysql
-    host: localhost
+    host: 10.160.32.24
     port: 3306
-    username: root
-    password: Pass1234
-    dbname: data_fusion
+    username: fate
+    password: Fate@10086
+    dbname: federated_learning
 
 spring:
   profiles: dev
@@ -57,5 +57,10 @@ swagger:
   enable: false
 
 fate-flow:
-  host: localhost
-  port: 9380
+  #9999
+  host: 192.168.10.43
+  port: 30109
+
+file-directory: /root/
+
+time-interval: 2

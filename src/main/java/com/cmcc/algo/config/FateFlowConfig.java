@@ -5,25 +5,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FateFlowConfig {
+    public static String fateFlowHost;
+    public static String fateFlowPort;
+
     @Value("${fate-flow.host}")
-    private String host;
+    public void setFateFlowHost(String fateFlowHost) {
+        this.fateFlowHost = fateFlowHost;
+    }
 
     @Value("${fate-flow.port}")
-    private Integer port;
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setFateFlowPort(String fateFlowPort) {
+        this.fateFlowPort = fateFlowPort;
     }
 }
