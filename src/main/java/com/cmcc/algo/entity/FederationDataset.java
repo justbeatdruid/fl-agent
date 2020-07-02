@@ -1,15 +1,21 @@
 package com.cmcc.algo.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-
 //import lombok.EqualsAndHashCode;
 //import lombok.experimental.Accessors;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import java.util.Date;
 
 /**
  * <p>

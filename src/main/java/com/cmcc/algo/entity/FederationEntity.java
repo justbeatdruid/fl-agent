@@ -1,16 +1,20 @@
 package com.cmcc.algo.entity;
 
 import com.cmcc.algo.common.annotation.CheckRange;
+
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
-import java.util.Date;
-
 //import lombok.EqualsAndHashCode;
 //import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import java.io.Serializable;
+import java.util.Date;
 /**
  * <p>
  * 联邦信息表
@@ -39,26 +43,27 @@ public class FederationEntity implements Serializable {
     /**
      * 联邦名称
      */
-    @Column(length = 32)
+    @NotBlank(message="名字不能为空")
+    @Column(length = 32, unique = true, nullable = false)
     private String name;
 
     /**
      *联邦唯一ID
      */
     @NotBlank(message="uuid不能为空")
-    @Column(length = 32)
+    @Column(length = 32, unique = true, nullable = false)
     private String uuid;
 
     /**
      * 联邦创建时间
      */
-    @Column
+    @Column(nullable = false)
     private Date createdAt;
 
     /**
      * 联邦类型(0:横向联邦，1:纵向联邦)
      */
-    @Column
+    @Column(nullable = false)
     private Boolean type;
 
     /**
@@ -104,5 +109,9 @@ public class FederationEntity implements Serializable {
     @Column(length = 65536)
     private String param;
 
-
+    /**
+     * UserCount
+     */
+    @Column
+    private Short userCount;
 }
