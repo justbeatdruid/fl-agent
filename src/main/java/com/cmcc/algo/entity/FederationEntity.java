@@ -1,8 +1,6 @@
 package com.cmcc.algo.entity;
 
 import com.cmcc.algo.common.annotation.CheckRange;
-import com.cmcc.algo.common.validator.group.AddGroup;
-import com.cmcc.algo.common.validator.group.UpdateGroup;
 
 import lombok.Data;
 //import lombok.EqualsAndHashCode;
@@ -45,7 +43,7 @@ public class FederationEntity implements Serializable {
     /**
      * 联邦名称
      */
-    @NotBlank(message="名字不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @NotBlank(message="名字不能为空")
     @Column(length = 32, unique = true, nullable = false)
     private String name;
 
