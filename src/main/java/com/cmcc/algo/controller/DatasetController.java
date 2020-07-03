@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cmcc.algo.common.exception.APIException;
 import com.cmcc.algo.common.response.CommonResult;
 import com.cmcc.algo.common.response.ResultCode;
+import com.cmcc.algo.config.CommonConfig;
 import com.cmcc.algo.entity.FederationDataset;
 import com.cmcc.algo.service.IDatasetService;
 import com.cmcc.algo.service.IFederationDatasetService;
@@ -33,6 +34,9 @@ public class DatasetController {
     @Autowired
     IFederationDatasetService federationDatasetService;
 
+    @Autowired
+    CommonConfig commonConfig;
+
     /**
      * 上传接口
      *
@@ -44,8 +48,12 @@ public class DatasetController {
     @PostMapping(value = "/upload")
     public CommonResult upload(@RequestBody String request) {
         String federationUuid = JSONUtil.parseObj(request).getStr("federationUuid");
-        Integer dataType = JSONUtil.parseObj(request).getInt("dataType");
+        Short dataType = JSONUtil.parseObj(request).getShort("dataType");
         Integer partyId = JSONUtil.parseObj(request).getInt("partyId");
+
+        if (commonConfig.getPartyId().intValue() != partyId.intValue()) {
+            throw new APIException("wrong party id. expect " + commonConfig.getPartyId().toString());
+        }
 
         Preconditions.checkArgument(ObjectUtil.isAllNotEmpty(federationUuid, dataType, partyId));
 

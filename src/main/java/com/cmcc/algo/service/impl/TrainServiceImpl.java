@@ -14,6 +14,7 @@ import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.CommonConstant;
 import com.cmcc.algo.constant.URLConstant;
 import com.cmcc.algo.entity.*;
+import com.cmcc.algo.mapper.FederationDatasetRepository;
 import com.cmcc.algo.mapper.FederationRepository;
 import com.cmcc.algo.mapper.TrainMapper;
 import com.cmcc.algo.service.*;
@@ -50,14 +51,17 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
     @Autowired
     IUserFederationService userFederationService;
 
-    @Autowired
-    IFederationDatasetService federationDatasetService;
+    //@Autowired
+    //IFederationDatasetService federationDatasetService;
 
     @Autowired
     IAlgorithmService algorithmService;
 
     @Autowired
     ITrainService trainService;
+
+    @Autowired
+    FederationDatasetRepository federationDatasetRepository;
 
     @Override
     public Boolean submitTrainTask(String federationUuid) {
@@ -113,9 +117,12 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
         // 将数据集以及算法参数等参数放在一个map中，返回到train_param中
         Map<String, Object> trainParam = new HashMap<>();
         hostIdList.add(guestId);
+        /*
         List<FederationDataset> federationDatasetList = federationDatasetService.list(Wrappers.<FederationDataset>lambdaQuery()
                 .eq(FederationDataset::getFederationUuid, federationUuid)
                 .in(FederationDataset::getPartyId, hostIdList));
+        */
+        List<FederationDataset> federationDatasetList = federationDatasetRepository.findByFederationUuidAndPartyIdIn(federationUuid, hostIdList);
 
         trainParam.put("dataset", federationDatasetList);
         trainParam.putAll(algorithmParam);
