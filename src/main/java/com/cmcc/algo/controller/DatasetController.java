@@ -48,11 +48,11 @@ public class DatasetController {
     @PostMapping(value = "/upload")
     public CommonResult upload(@RequestBody String request) {
         String federationUuid = JSONUtil.parseObj(request).getStr("federationUuid");
-        Integer dataType = JSONUtil.parseObj(request).getInt("dataType");
+        Short dataType = JSONUtil.parseObj(request).getShort("dataType");
         Integer partyId = JSONUtil.parseObj(request).getInt("partyId");
 
-        if (commonConfig.getPartyId() != partyId) {
-            throw APIException("wrong party id. expect " + commonConfig.getPartyId().toString());
+        if (commonConfig.getPartyId().intValue() != partyId.intValue()) {
+            throw new APIException("wrong party id. expect " + commonConfig.getPartyId().toString());
         }
 
         Preconditions.checkArgument(ObjectUtil.isAllNotEmpty(federationUuid, dataType, partyId));

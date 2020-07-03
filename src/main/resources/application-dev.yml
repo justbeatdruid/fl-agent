@@ -61,6 +61,9 @@ fate-flow:
   host: 192.168.10.43
   port: 30109
 
-file-directory: /root/
+#file-directory: /root/
+file-path: /root/
 
 time-interval: 2
+
+partyId: 0
