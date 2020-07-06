@@ -67,3 +67,7 @@ file-path: /root/
 time-interval: 2
 
 partyId: 0
+
+python-path: /python/path
+
+client-py-path: /root/fate_flow_client.py

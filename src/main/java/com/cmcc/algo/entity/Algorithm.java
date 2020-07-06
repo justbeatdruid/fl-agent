@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 
@@ -62,5 +63,6 @@ public class Algorithm implements Serializable {
     @ApiModelProperty(value = "算法模板名")
     private String template;
 
-
+    @ApiModelProperty(value = "算法组件名")
+    private String algorithmComponent;
 }

@@ -14,5 +14,5 @@ import com.cmcc.algo.entity.Predict;
 public interface IPredictService extends IService<Predict> {
     Boolean submitPredictTask(String federationUuid);
 
-    Boolean exportResult(String predictUuid);
+    String exportResult(String predictUuid);
 }

@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.cmcc.algo.common.exception.APIException;
 import com.cmcc.algo.common.response.CommonResult;
 import com.cmcc.algo.common.response.ResultCode;
+import com.cmcc.algo.config.CommonConfig;
 import com.cmcc.algo.service.IPredictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,7 +44,6 @@ public class PredictController {
         return CommonResult.success();
     }
 
-    // TODO
     @ApiOperation(value = "导出结果数据", notes = "导出结果数据")
     @ApiImplicitParam(name = "predictUuid", value = "预测记录UUID")
     @PostMapping(value = "/export")
@@ -51,6 +51,7 @@ public class PredictController {
         if (StrUtil.isBlank(predictUuid)) {
             throw new APIException(ResultCode.PARAMETER_CHECK_ERROR,"预测记录ID为空");
         }
+        System.out.println(CommonConfig.filePath);
         predictService.exportResult(predictUuid);
         return CommonResult.success();
     }

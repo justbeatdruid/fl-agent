@@ -95,6 +95,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
 
         String fateUrl = "http://" + FateFlowConfig.fateFlowHost + ":" + FateFlowConfig.fateFlowPort;
 
+        // 如果要修改为统一模板，需要确认纵向存在对齐步骤，每个算法名不同，参数也可能存在不同
         String AlgDsl = TemplateUtils.useTemplate(null, algorithm.getAlgorithmName() + "_dsl.ftl");
         String AlgConf = TemplateUtils.useTemplate(algorithmParam, algorithm.getAlgorithmName() + "_conf.ftl");
 
