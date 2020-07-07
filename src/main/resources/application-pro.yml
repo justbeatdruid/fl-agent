@@ -4,17 +4,18 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  port: 10086
+  port: 10087
+
 
 dbserver:
   mysql:
     driver: com.mysql.cj.jdbc.Driver
     type: mysql
-    host: 192.168.7.247
+    host: fl-mysql.kube-fate
     port: 3306
     username: root
-    password: Pass1234
-    dbname: data_fusion
+    password: 123456
+    dbname: federated_learning
 
 spring:
   profiles: pro
@@ -54,3 +55,15 @@ mybatis-plus:
 
 swagger:
   enable: false
+
+fate-flow:
+  #9999
+  host: fateflow
+  port: 9380
+
+#file-directory: /root/
+file-path: /root/
+
+time-interval: 2
+
+partyId: 0
