@@ -51,8 +51,7 @@ public class PredictController {
         if (StrUtil.isBlank(predictUuid)) {
             throw new APIException(ResultCode.PARAMETER_CHECK_ERROR,"预测记录ID为空");
         }
-        System.out.println(CommonConfig.filePath);
-        predictService.exportResult(predictUuid);
-        return CommonResult.success();
+        String directory = predictService.exportResult(predictUuid);
+        return CommonResult.success("output data directory is " + directory);
     }
 }

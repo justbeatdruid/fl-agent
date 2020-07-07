@@ -42,7 +42,7 @@ public class Algorithm implements Serializable {
     @ApiModelProperty(value = "算法中文名")
     private String displayName;
 
-    @ApiModelProperty(value = "联邦学习类型（0：纵向，1：横向）")
+    @ApiModelProperty(value = "联邦学习类型（1：纵向，0：横向）")
     private Boolean federationType;
 
     @ApiModelProperty(value = "算法类型（0：分类，1：回归）")

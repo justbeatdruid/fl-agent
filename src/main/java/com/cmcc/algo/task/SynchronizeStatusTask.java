@@ -112,6 +112,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
             FederationEntity fed = fedTrain.getFederationEntity();
             Train train = fedTrain.getTrain();
 
+            log.info("begin to query train job of federation {}", fedTrain.getFederationUuid());
             String jobQueryURL = "http://" + FateFlowConfig.fateFlowHost + ":" + FateFlowConfig.fateFlowPort + URLConstant.JOB_QUERY_URL;
             String jobQueryParam = JSONUtil.toJsonStr(new JSONObject().putOnce("job_id", train.getJobId()));
 
@@ -124,11 +125,12 @@ public class SynchronizeStatusTask implements ApplicationRunner {
             List<JSONObject> roleJobList = JSONUtil.parseObj(jobQueryResponse).getJSONArray("data").toList(JSONObject.class);
             JSONObject query = roleJobList.stream().filter(x -> x.getStr("f_role").equals("guest")).limit(1).collect(Collectors.toList()).get(0);
 
-
+            log.info("begin to update train job status of federation {}", fedTrain.getFederationUuid());
             switch (query.getStr("f_status")) {
                 case "running":
                     train.setDuration(TimeUtils.getDurationStrByTimestamp(System.currentTimeMillis() - train.getStartTimestamp()));
                     trainService.updateById(train);
+                    log.info("job {} is still running", query.getStr("f_job_id"));
                     break;
                 case "success":
                     // 标记状态
@@ -161,6 +163,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
 
                     federationMapper.save(fed);
                     trainService.updateById(train);
+                    log.info("job {} is success", query.getStr("f_job_id"));
                     break;
                 case "failed":
                     // 标记状态
@@ -168,6 +171,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
                     train.setStatus(2);
 
                     // 失败时可能没有结束时间，因此不作更新
+                    log.info("job {} is failed", query.getStr("f_job_id"));
                     break;
                 default:
                     log.warn("there is an unknown status {}", query.getStr("f_status"));
@@ -201,6 +205,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
             FederationEntity fed = fedPredict.getFederationEntity();
             Predict predict = fedPredict.getPredict();
 
+            log.info("begin to query predict job of federation {}", fedPredict.getFederationUuid());
             String jobQueryURL = "http://" + FateFlowConfig.fateFlowHost + ":" + FateFlowConfig.fateFlowPort + URLConstant.JOB_QUERY_URL;
             String jobQueryParam = JSONUtil.toJsonStr(new JSONObject().putOnce("job_id", predict.getJobId()));
 
@@ -213,10 +218,12 @@ public class SynchronizeStatusTask implements ApplicationRunner {
             List<JSONObject> roleJobList = JSONUtil.parseObj(jobQueryResponse).getJSONArray("data").toList(JSONObject.class);
             JSONObject query = roleJobList.stream().filter(x -> x.getStr("f_role").equals("guest")).limit(1).collect(Collectors.toList()).get(0);
 
+            log.info("begin to update predict job status of federation {}", fedPredict.getFederationUuid());
             switch (query.getStr("f_status")) {
                 case "running":
                     predict.setDuration(TimeUtils.getDurationStrByTimestamp(System.currentTimeMillis() - predict.getStartTimestamp()));
                     predictService.updateById(predict);
+                    log.info("job {} is still running", query.getStr("f_job_id"));
                     break;
                 case "success":
                     // 标记状态
@@ -228,6 +235,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
 
                     federationMapper.save(fed);
                     predictService.updateById(predict);
+                    log.info("job {} is success", query.getStr("f_job_id"));
                     break;
                 case "failed":
                     // 标记状态
@@ -235,6 +243,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
                     predict.setStatus(2);
 
                     // 失败时可能没有结束时间，因此不作更新
+                    log.info("job {} is failed", query.getStr("f_job_id"));
                     break;
                 default:
                     log.warn("there is an unknown status {}", query.getStr("f_status"));

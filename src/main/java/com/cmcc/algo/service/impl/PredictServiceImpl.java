@@ -57,7 +57,7 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
 
     @Override
     public Boolean submitPredictTask(String federationUuid) {
-        FederationEntity federation = federationMapper.getOne(Long.valueOf(federationUuid));
+        FederationEntity federation = federationMapper.findByUuid(federationUuid);
 
         // 从最新一次train记录获取param
         Train train = Optional.ofNullable(trainService.getOne(Wrappers.<Train>lambdaQuery()
@@ -70,12 +70,13 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
         predictParam.putAll(model);
         predictParam.putOnce("data_type", 1);
 
-        String fateUrl = "http://" + FateFlowConfig.fateFlowHost + ":" + FateFlowConfig.fateFlowPort;
         String predictConf = TemplateUtils.useTemplate(predictParam, "predict_conf.ftl");
+        JSONObject submitRequest = new JSONObject().putOnce("job_runtime_conf", predictConf);
 
-        JSONObject submitRequest = new JSONObject();
-        submitRequest.putOnce("job_runtime_conf", predictConf);
+        String fateUrl = "http://" + FateFlowConfig.fateFlowHost + ":" + FateFlowConfig.fateFlowPort;
         String submitResponse = HttpUtil.post(fateUrl + URLConstant.JOB_SUBMIT_URL, JSONUtil.toJsonStr(submitRequest));
+        // 模拟返回
+//        String submitResponse = "{\r\n    \"data\": {\r\n        \"board_url\": \"http://fateboard:8080/index.html#/dashboard?job_id=202007060000000000002&role=guest&party_id=9999\",\r\n        \"job_dsl_path\": \"/data/projects/fate/python/jobs/202007060000000000002/job_dsl.json\",\r\n        \"job_runtime_conf_path\": \"/data/projects/fate/python/jobs/202007060000000000002/job_runtime_conf.json\",\r\n        \"logs_directory\": \"/data/projects/fate/python/logs/202007060000000000002\",\r\n        \"model_info\": {\r\n            \"model_id\": \"arbiter-9999#guest-9999#host-9999#model\",\r\n            \"model_version\": \"202007060000000000002\"\r\n        }\r\n    },\r\n    \"jobId\": \"202007060000000000002\",\r\n    \"retcode\": 0,\r\n    \"retmsg\": \"success\"\r\n}";
         JSONObject submit = JSONUtil.parseObj(submitResponse);
 
         if (submit.getInt("retcode") != 0) {
@@ -125,13 +126,11 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
             throw new APIException(ResultCode.NOT_FOUND,"预测记录查询错误");
         }
 
-        // linux
         String[] cmd = {CommonConfig.pythonPath, CommonConfig.cliPyPath, "-f", "component_output_data",
                 "-j", predict.getJobId(), "-r", "guest", "-p", federationEntity.getGuest(),
-                "-cpn", algorithm.getAlgorithmComponent(), "-o", CommonConfig.filePath};
-        // windows
-//        String [] cmd={"cmd","/C","copy exe1 exe2"};
+                "-cpn", "algorithm_0", "-o", CommonConfig.filePath};
         String execResponse = RuntimeUtil.execForStr(cmd);
+
         if (JSONUtil.parseObj(execResponse).getInt("retcode") != 0) {
             throw new APIException(ResultCode.NOT_FOUND, "保存失败");
         }

@@ -1,3 +1,4 @@
+<#setting number_format="#">
 {
   "initiator": {
     "role": "guest",
@@ -83,12 +84,12 @@
     "algorithm_0": {
       "penalty": "L2",
       "optimizer": "nesterov_momentum_sgd",
-      "tol": ${loss},
+      "tol": ${loss?if_exists?string.number},
       "alpha": 0.01,
-      "max_iter": ${iteration},
+      "max_iter": ${iteration?if_exists?string.number},
       "early_stop": "weight_diff",
       "batch_size": -1,
-      "learning_rate": ${learning_rate},
+      "learning_rate": ${learning_rate?if_exists?string.number},
       "init_param": {
         "init_method": "random_uniform"
       },

@@ -46,7 +46,7 @@ public class TrainController {
     @ApiImplicitParam(name = "federationUuid", value = "联邦UUID")
     @PostMapping(value = "/submit")
     public CommonResult submitTrainTask(@RequestBody String federationUuid){
-        if (!StrUtil.isBlank(federationUuid)) {
+        if (StrUtil.isBlank(federationUuid)) {
             throw new APIException(ResultCode.PARAMETER_CHECK_ERROR,"联邦UUID为空");
         }
         trainService.submitTrainTask(federationUuid);
