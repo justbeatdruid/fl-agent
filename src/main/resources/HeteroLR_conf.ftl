@@ -12,7 +12,7 @@
       ${guest_party_id}
     ],
     "host": [
-      <#list host_party_id_list as host>host<#if host_has_next>, </#if></#list>
+      <#list host_party_id_list as host>${host}<#if host_has_next>, </#if></#list>
     ],
     "arbiter": [
       ${guest_party_id}
@@ -84,12 +84,12 @@
     "algorithm_0": {
       "penalty": "L2",
       "optimizer": "nesterov_momentum_sgd",
-      "tol": ${loss?if_exists?string.number},
+      "tol": #{loss ;m0M6},
       "alpha": 0.01,
       "max_iter": ${iteration?if_exists?string.number},
       "early_stop": "weight_diff",
       "batch_size": -1,
-      "learning_rate": ${learning_rate?if_exists?string.number},
+      "learning_rate": #{learning_rate ;m0M6},
       "init_param": {
         "init_method": "random_uniform"
       },

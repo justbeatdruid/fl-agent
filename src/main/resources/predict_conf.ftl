@@ -15,7 +15,7 @@
       ${guest_party_id}
     ],
     "host": [
-      <#list host_party_id_list as host>host<#if host_has_next>, </#if></#list>
+      <#list host_party_id_list as host>${host}<#if host_has_next>, </#if></#list>
     ],
     "arbiter": [
       ${guest_party_id}
