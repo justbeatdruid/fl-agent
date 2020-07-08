@@ -1,19 +1,15 @@
 package com.cmcc.algo.service.impl;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.file.FileWriter;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-//import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-//import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cmcc.algo.common.exception.APIException;
 import com.cmcc.algo.common.response.ResultCode;
 import com.cmcc.algo.config.CommonConfig;
 import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.URLConstant;
 import com.cmcc.algo.entity.FederationDataset;
-//import com.cmcc.algo.mapper.FederationDatasetMapper;
 import com.cmcc.algo.mapper.FederationDatasetRepository;
 import com.cmcc.algo.service.IFederationDatasetService;
 import com.cmcc.algo.service.IUserFederationService;
@@ -29,23 +25,14 @@ import java.util.*;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class FederationDatasetServiceImpl implements IFederationDatasetService {
-//public class FederationDatasetServiceImpl extends ServiceImpl<FederationDatasetMapper, FederationDataset> implements IFederationDatasetService {
     @Autowired
     FederationDatasetRepository federationDatasetRepository;
-    //IFederationDatasetService federationDatasetService;
 
     @Autowired
     IUserFederationService userFederationService;
 
     @Override
     public boolean uploadDataset(String federationUuid, Short dataType, Integer partyId) {
-        /*
-        FederationDataset dataset = Optional.ofNullable(federationDatasetService.getOne(Wrappers.<FederationDataset>lambdaQuery()
-                .eq(FederationDataset::getFederationUuid, federationUuid)
-                .eq(FederationDataset::getType, dataType)
-                .eq(FederationDataset::getPartyId, partyId)))
-                .orElseThrow(() -> new APIException(ResultCode.NOT_FOUND, "数据集未选择"));
-        */
         FederationDataset dataset = federationDatasetRepository.findByFederationUuidAndPartyIdAndType(federationUuid, partyId, dataType);
 
         Map<String, Object> requestMap = new HashMap<>();

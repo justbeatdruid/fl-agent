@@ -6,7 +6,6 @@ import com.cmcc.algo.entity.FederationEntity;
 import com.cmcc.algo.entity.UserFederation;
 import com.cmcc.algo.mapper.FederationRepository;
 import com.cmcc.algo.service.IFederationService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cmcc.algo.service.IUserFederationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,3 +1,4 @@
+<#setting number_format="#">
 {
     "file": "${path}",
     "head": ${head},

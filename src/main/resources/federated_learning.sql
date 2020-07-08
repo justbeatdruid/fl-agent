@@ -44,6 +44,7 @@ CREATE TABLE `tb_algorithm`  (
   `param` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '算法参数',
   `algorithm_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '算法描述',
   `template` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '算法模板名',
+  `algorithm_component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '算法组件名（联邦学习中涉及）',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `algorithm_name`(`algorithm_name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '算法信息表' ROW_FORMAT = Dynamic;
@@ -51,7 +52,7 @@ CREATE TABLE `tb_algorithm`  (
 -- ----------------------------
 -- Records of tb_algorithm
 -- ----------------------------
-INSERT INTO `tb_algorithm` VALUES (1, 'HeteroLR', '纵向逻辑回归', 0, 0, '[{\"paramName\":\"learning_rate\",\"displayName\":\"学习率\",\"defaultValue\":0.015,\"validRule\":{\"min\":0.001,\"max\":100}},{\"paramName\":\"loss\",\"displayName\":\"最终损失\",\"defaultValue\":0.00001,\"validRule\":{\"min\":0,\"max\":1}},{\"paramName\":\"iteration\",\"displayName\":\"迭代次数\",\"defaultValue\":100,\"validRule\":{\"min\":10,\"max\":1000}}]', NULL, '/com/cmcc/HeteroLR.ftl');
+INSERT INTO `tb_algorithm` VALUES (1, 'HeteroLR', '纵向逻辑回归', 1, 0, '[{\"paramName\":\"learning_rate\",\"displayName\":\"学习率\",\"defaultValue\":0.015,\"validRule\":{\"min\":0.001,\"max\":100}},{\"paramName\":\"loss\",\"displayName\":\"最终损失\",\"defaultValue\":0.00001,\"validRule\":{\"min\":0,\"max\":1}},{\"paramName\":\"iteration\",\"displayName\":\"迭代次数\",\"defaultValue\":100,\"validRule\":{\"min\":10,\"max\":1000}}]', NULL, '/com/cmcc/HeteroLR.ftl');
 
 -- ----------------------------
 -- Table structure for tb_dataset
