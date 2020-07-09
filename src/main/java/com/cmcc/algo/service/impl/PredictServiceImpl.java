@@ -55,9 +55,16 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
     @Autowired
     IAlgorithmService algorithmService;
 
+    @Autowired
+    CommonConfig commonConfig;
+
     @Override
     public Boolean submitPredictTask(String federationUuid) {
         FederationEntity federation = federationMapper.findByUuid(federationUuid);
+        if (commonConfig.getPartyId().intValue() != Integer.valueOf(federation.getGuest()).intValue()) {
+            throw new APIException("wrong party id. expect " + commonConfig.getPartyId().toString());
+        }
+
         if (federation.getStatus() != 1) {
             throw new APIException(ResultCode.NOT_FOUND,"联邦未处于就绪状态");
         }

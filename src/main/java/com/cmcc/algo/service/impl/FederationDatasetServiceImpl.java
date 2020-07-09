@@ -14,6 +14,7 @@ import com.cmcc.algo.mapper.FederationDatasetRepository;
 import com.cmcc.algo.service.IFederationDatasetService;
 import com.cmcc.algo.service.IUserFederationService;
 import com.cmcc.algo.util.TemplateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import java.util.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class FederationDatasetServiceImpl implements IFederationDatasetService {
     @Autowired
     FederationDatasetRepository federationDatasetRepository;
@@ -33,6 +35,7 @@ public class FederationDatasetServiceImpl implements IFederationDatasetService {
 
     @Override
     public boolean uploadDataset(String federationUuid, Short dataType, Integer partyId) {
+        log.info("begin to generate upload request json");
         FederationDataset dataset = federationDatasetRepository.findByFederationUuidAndPartyIdAndType(federationUuid, partyId, dataType);
 
         Map<String, Object> requestMap = new HashMap<>();
@@ -45,11 +48,15 @@ public class FederationDatasetServiceImpl implements IFederationDatasetService {
 
         // 生成模板，写文件
         String predictConf = TemplateUtils.useTemplate(requestMap, "upload.ftl");
+        log.info("request is \n{}", predictConf);
 
         String uploadJsonPath = CommonConfig.filePath + "/" + partyId + "_upload.json";
+        log.info("begin to create file");
         File uploadJson = FileUtil.exist(uploadJsonPath) ? FileUtil.file(uploadJsonPath) : FileUtil.touch(uploadJsonPath);
+        log.info("begin to write str in file");
         FileUtil.writeString(predictConf, uploadJson, Charset.defaultCharset());
 
+        log.info("begin to exec upload command");
         String[] cmd = {CommonConfig.pythonPath, CommonConfig.cliPyPath, "-f", "upload", "-c", uploadJsonPath};
         String response = RuntimeUtil.execForStr(cmd);
 

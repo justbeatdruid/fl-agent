@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ import java.util.Optional;
 @Api(tags = "数据集接口")
 @RestController
 @RequestMapping("/dataset")
+@Slf4j
 public class DatasetController {
     @Autowired
     IFederationDatasetService federationDatasetService;
@@ -44,9 +46,10 @@ public class DatasetController {
      * @return
      */
     @ApiOperation(value = "上传数据", notes = "上传数据")
-    @ApiImplicitParam(name = "request", value = "请求JSON,包含三个字段'federation','dataType','partyId',都不可为空")
+    @ApiImplicitParam(name = "request", value = "请求JSON,包含三个字段'federationUuid','dataType','partyId',都不可为空")
     @PostMapping(value = "/upload")
     public CommonResult upload(@RequestBody String request) {
+        log.info("begin to check parameters");
         String federationUuid = JSONUtil.parseObj(request).getStr("federationUuid");
         Short dataType = JSONUtil.parseObj(request).getShort("dataType");
         Integer partyId = JSONUtil.parseObj(request).getInt("partyId");

@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cmcc.algo.common.builder.Builder;
 import com.cmcc.algo.common.exception.APIException;
 import com.cmcc.algo.common.response.ResultCode;
+import com.cmcc.algo.config.CommonConfig;
 import com.cmcc.algo.config.FateFlowConfig;
 import com.cmcc.algo.constant.CommonConstant;
 import com.cmcc.algo.constant.URLConstant;
@@ -66,9 +67,16 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
     @Autowired
     FederationDatasetRepository federationDatasetRepository;
 
+    @Autowired
+    CommonConfig commonConfig;
+
     @Override
     public Boolean submitTrainTask(String federationUuid) {
         FederationEntity federation = federationMapper.findByUuid(federationUuid);
+        if (commonConfig.getPartyId().intValue() != Integer.valueOf(federation.getGuest()).intValue()) {
+            throw new APIException("wrong party id. expect " + commonConfig.getPartyId().toString());
+        }
+
         if (federation.getStatus() != 1) {
             throw new APIException(ResultCode.NOT_FOUND,"联邦未处于就绪状态");
         }
