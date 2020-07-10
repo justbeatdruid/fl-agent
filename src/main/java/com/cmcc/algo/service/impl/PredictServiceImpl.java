@@ -139,9 +139,9 @@ public class PredictServiceImpl extends ServiceImpl<PredictMapper, Predict> impl
             throw new APIException(ResultCode.NOT_FOUND,"预测记录查询错误");
         }
 
-        String[] cmd = {CommonConfig.pythonPath, CommonConfig.cliPyPath, "-f", "component_output_data",
+        String[] cmd = {commonConfig.getPythonPath(), commonConfig.getCliPyPath(), "-f", "component_output_data",
                 "-j", predict.getJobId(), "-r", "guest", "-p", federationEntity.getGuest(),
-                "-cpn", "algorithm_0", "-o", CommonConfig.filePath};
+                "-cpn", "algorithm_0", "-o", commonConfig.getFilePath()};
         String execResponse = RuntimeUtil.execForStr(cmd);
 
         if (JSONUtil.parseObj(execResponse).getInt("retcode") != 0) {

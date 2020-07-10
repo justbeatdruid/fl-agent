@@ -68,6 +68,6 @@ time-interval: 2
 
 partyId: 9999
 
-python-path: python
+python-path: /usr/bin/python
 
 client-py-path: /data/projects/fate/python/fate_flow/fate_flow_client.py
