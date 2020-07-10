@@ -11,10 +11,10 @@ dbserver:
   mysql:
     driver: com.mysql.cj.jdbc.Driver
     type: mysql
-    host: 10.160.32.24
+    host: 192.168.10.43
     port: 3306
-    username: fate
-    password: Fate@10086
+    username: root
+    password: 123456
     dbname: federated_learning
 
 spring:
