@@ -56,6 +56,7 @@ public class SynchronizeStatusTask implements ApplicationRunner {
 
     @Bean
     public static ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        log.info("new ThreadPoolTaskScheduler in status task");
         return new ThreadPoolTaskScheduler();
     }
 
